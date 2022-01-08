@@ -5,3 +5,16 @@ a {
 .home {
   font-size: 2em;
 }
+.nav-bar {
+  background-color: blue;
+  display: flex;
+  justify-content: space-between;
+}
+
+#welcome {
+  margin-right: 1em;
+  
+}
+p {
+  margin-left: 1em;
+}
