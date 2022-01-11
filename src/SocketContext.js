@@ -7,18 +7,17 @@ const SocketContext = createContext()
 const socket = io('http://localhost/4741')
 
 const ContextProvider = ({ children }) => {
-  const [stream, setStream] = useState(null)
-  const [me, setMe] = useState('')
-  const [call, setCall] = useState({})
   const [callAccepted, setCallAccepted] = useState(false)
   const [callEnded, setCallEnded] = useState(false)
+  const [stream, setStream] = useState()
   const [name, setName] = useState('')
+  const [call, setCall] = useState({})
+  const [me, setMe] = useState('')
 
   const myVideo = useRef()
   const userVideo = useRef()
   const connectionRef = useRef()
 
-  // use effect
   useEffect(() => {
     navigator.mediaDevices.getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
@@ -26,9 +25,11 @@ const ContextProvider = ({ children }) => {
 
         myVideo.current.srcObject = currentStream
       })
+
     socket.on('me', (id) => setMe(id))
+
     socket.on('callUser', ({ from, name: callerName, signal }) => {
-      setCall({ isReceivedCall: true, from, name: callerName, signal })
+      setCall({ isReceivingCall: true, from, name: callerName, signal })
     })
   }, [])
 
@@ -77,6 +78,7 @@ const ContextProvider = ({ children }) => {
 
     window.location.reload()
   }
+
   return (
     <SocketContext.Provider value={{
       call,
@@ -91,7 +93,8 @@ const ContextProvider = ({ children }) => {
       callUser,
       leaveCall,
       answerCall
-    }}>
+    }}
+    >
       {children}
     </SocketContext.Provider>
   )

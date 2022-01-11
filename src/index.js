@@ -7,11 +7,13 @@ import { ContextProvider } from './SocketContext'
 import { BrowserRouter } from 'react-router-dom'
 
 const appJsx = (
-  <BrowserRouter basename={process.env.PUBLIC_URL}>
-    <ContextProvider>
+  <ContextProvider>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
+
       <App />
-    </ContextProvider>
-  </BrowserRouter>
+
+    </BrowserRouter>
+  </ContextProvider>
 )
 
 ReactDOM.render(appJsx, document.getElementById('root'))
